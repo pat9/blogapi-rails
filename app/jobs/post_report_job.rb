@@ -4,8 +4,9 @@ class PostReportJob < ApplicationJob
   def perform(user_id, post_id)
     user = User.find(user_id)
     post = Post.find(post_id)
-    PostReport.generate(post)
+    report = PostReport.generate(post)
     # Do something later
     # user -> report -> emails
+		PostReportMailer.post_report(user, post, report).deliver_now
   end
 end
